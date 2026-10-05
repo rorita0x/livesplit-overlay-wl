@@ -46,12 +46,46 @@ Stop the overlay with Ctrl+C.
 
 ## Configuration
 
-Copy the example config and point it at your splits file:
+The easiest way is the `config` command. It creates the config file
+(`~/.config/livesplit-overlay/config.toml`) if needed, checks the value, and
+applies it to a running overlay right away:
 
 ```sh
-mkdir -p ~/.config/livesplit-overlay
-cp config.example.toml ~/.config/livesplit-overlay/config.toml
+livesplit-overlay config set splits ~/splits/game.lss
+livesplit-overlay config set opacity 0.8
+livesplit-overlay config set corner bottom-left
+livesplit-overlay config set hotkeys.split "Ctrl + KeyS"
+livesplit-overlay config                 # show all settings
+livesplit-overlay config get opacity     # show one setting
+livesplit-overlay config unset opacity   # back to the default
+livesplit-overlay config path            # where the file is
 ```
+
+You can also edit the file by hand; `config.example.toml` is a commented
+starting point. Comments you write in the file are kept when `config set`
+changes it.
+
+### Choosing the monitor
+
+```sh
+livesplit-overlay outputs
+```
+
+```
+NAME       SCALE   MONITOR
+DP-1       1       Acer Technologies QG271
+HDMI-A-1   1       Shenzhen KTC Technology Group HDMI-A-1-H27T27
+```
+
+Then pick one or more by name:
+
+```sh
+livesplit-overlay config set outputs DP-1
+livesplit-overlay config set outputs DP-1,HDMI-A-1
+livesplit-overlay config set outputs ""     # all monitors
+```
+
+### All settings
 
 All settings are optional except `splits`.
 
@@ -64,7 +98,7 @@ All settings are optional except `splits`.
 | `corner`      | `"top-right"` | `"top-left"`, `"top-right"`, `"bottom-left"` or `"bottom-right"`. |
 | `margin`      | `12`          | Distance to the screen edges in pixels. |
 | `opacity`     | `1.0`         | Transparency of the whole overlay, text included: `1.0` is solid, `0.5` half see-through. Must be above 0. |
-| `outputs`     | `[]`          | Which monitors to show it on, e.g. `["DP-1"]`. Empty means all. |
+| `outputs`     | `[]`          | Which monitors to show it on, e.g. `["DP-1"]`. Empty means all. See [Choosing the monitor](#choosing-the-monitor). |
 | `over_panels` | `false`       | `true` draws over panels/taskbars; `false` keeps it next to them. |
 | `fps`         | `30`          | How often the overlay redraws per second. |
 | `autosave`    | `true`        | Save the splits file after every reset and when the overlay quits. |
@@ -80,9 +114,9 @@ settings of LiveSplit or LiveSplit One.
 **Saving:** whenever the splits file is saved, the previous version is kept as
 `<splits file>.bak`. You can also save by hand with `livesplit-overlay save`.
 
-**Changing settings while running:** edit the config, then run
-`livesplit-overlay reload`. Only `splits`, `outputs` and `over_panels` need a
-restart of the overlay.
+**Changing settings while running:** `config set` applies changes immediately.
+After editing the file by hand, run `livesplit-overlay reload`. Only `splits`,
+`outputs` and `over_panels` need a restart of the overlay.
 
 Command-line flags override the config: `-config <file>`, `-splits <file>`,
 `-layout <file>`.
@@ -93,7 +127,8 @@ There are two ways to control the timer. You can use both at the same time.
 
 ### 1. Built-in hotkeys
 
-Set the keys in the `[hotkeys]` section of the config:
+Set the keys with `livesplit-overlay config set hotkeys.<action> <key>`, or in
+the `[hotkeys]` section of the config file:
 
 ```toml
 [hotkeys]

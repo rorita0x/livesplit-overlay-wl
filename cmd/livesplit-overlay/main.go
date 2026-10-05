@@ -43,11 +43,13 @@ func main() {
 	log.SetFlags(0)
 	log.SetPrefix("livesplit-overlay: ")
 
-	if len(os.Args) > 1 && slices.Contains(clientCommands(), os.Args[1]) {
-		if err := control.Send(control.SocketPath(), os.Args[1]); err != nil {
-			log.Fatal(err)
+	if len(os.Args) > 1 {
+		if handled, err := runCommand(os.Args[1], os.Args[2:]); handled {
+			if err != nil {
+				log.Fatal(err)
+			}
+			return
 		}
-		return
 	}
 
 	configPath := flag.String("config", "", "config file (default "+config.DefaultPath()+")")
@@ -55,7 +57,12 @@ func main() {
 	layout := flag.String("layout", "", "layout file (.ls1l or .lsl), overrides the config")
 	flag.Usage = func() {
 		out := flag.CommandLine.Output()
-		fmt.Fprintf(out, "Usage:\n  %[1]s [flags]       start the overlay\n  %[1]s <command>     send a command to the running overlay\n\nCommands:\n  %s\n\nFlags:\n",
+		fmt.Fprintf(out, "Usage:\n"+
+			"  %[1]s [flags]          start the overlay\n"+
+			"  %[1]s <command>        send a command to the running overlay\n"+
+			"  %[1]s outputs          list monitor names for the outputs setting\n"+
+			"  %[1]s config ...       show or change settings, see %[1]s config help\n\n"+
+			"Commands:\n  %s\n\nFlags:\n",
 			os.Args[0], strings.Join(clientCommands(), " "))
 		flag.PrintDefaults()
 	}
@@ -69,6 +76,18 @@ func main() {
 	if err := a.run(); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func runCommand(cmd string, args []string) (handled bool, err error) {
+	switch {
+	case cmd == "outputs":
+		return true, listOutputs()
+	case cmd == "config":
+		return true, configCommand(args)
+	case slices.Contains(clientCommands(), cmd):
+		return true, control.Send(control.SocketPath(), cmd)
+	}
+	return false, nil
 }
 
 type request struct {
@@ -106,12 +125,16 @@ func (a *app) loadConfig() (config.Config, error) {
 	if cfg.Splits == "" {
 		return cfg, fmt.Errorf("no splits file: set splits in %s or pass -splits", path)
 	}
+	return cfg, validateHotkeys(cfg)
+}
+
+func validateHotkeys(cfg config.Config) error {
 	for _, b := range cfg.Hotkeys.Bindings() {
 		if b.Key != "" && !lsc.ValidHotkey(b.Key) {
-			return cfg, fmt.Errorf("hotkeys.%s: invalid key %q (use names like \"Numpad1\", \"KeyS\", \"F1\" or \"Ctrl + KeyS\")", b.Action, b.Key)
+			return fmt.Errorf("hotkeys.%s: invalid key %q (use names like \"Numpad1\", \"KeyS\", \"F1\" or \"Ctrl + KeyS\")", b.Action, b.Key)
 		}
 	}
-	return cfg, nil
+	return nil
 }
 
 func (a *app) lang() lsc.Lang {
