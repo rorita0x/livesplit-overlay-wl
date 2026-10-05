@@ -267,7 +267,7 @@ func (a *app) loop(ctx context.Context) {
 		}
 		a.renderer.Render(a.timer, img, redraw)
 		if !bytes.Equal(img.Pix, shown) {
-			a.ov.SetImage(a.corner, overlay.Image{RGBA: img, Scale: sc, Margin: a.cfg.Margin})
+			a.ov.SetImage(a.corner, overlay.Image{RGBA: img, Scale: sc, Margin: a.cfg.Margin, Opacity: a.cfg.Opacity})
 			shown = append(shown[:0], img.Pix...)
 		}
 

@@ -19,6 +19,7 @@ type Config struct {
 	Height     int      `toml:"height"`
 	Corner     string   `toml:"corner"`
 	Margin     int      `toml:"margin"`
+	Opacity    float64  `toml:"opacity"`
 	Outputs    []string `toml:"outputs"`
 	OverPanels bool     `toml:"over_panels"`
 	FPS        int      `toml:"fps"`
@@ -51,6 +52,7 @@ func Default() Config {
 		Height:   500,
 		Corner:   "top-right",
 		Margin:   12,
+		Opacity:  1,
 		FPS:      30,
 		Autosave: true,
 		Hotkeys: Hotkeys{
@@ -99,6 +101,8 @@ func (c *Config) validate() error {
 		return fmt.Errorf("fps must be between 1 and 240, got %d", c.FPS)
 	case c.Margin < 0:
 		return fmt.Errorf("margin must not be negative, got %d", c.Margin)
+	case c.Opacity <= 0 || c.Opacity > 1:
+		return fmt.Errorf("opacity must be greater than 0 and at most 1, got %v", c.Opacity)
 	}
 	_, err := ParseCorner(c.Corner)
 	return err

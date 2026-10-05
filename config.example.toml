@@ -6,6 +6,7 @@ width  = 300
 height = 500
 corner = "top-right"
 margin = 12
+opacity = 1.0   # 0.0–1.0, whole overlay; background-only via the layout's background color
 outputs = []
 over_panels = false
 fps = 30
