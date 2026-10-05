@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Run version="1.7.0">
+  <GameIcon />
+  <GameName>Sample Game</GameName>
+  <CategoryName>Any%</CategoryName>
+  <Metadata>
+    <Run id="" />
+    <Platform usesEmulator="False"></Platform>
+    <Region></Region>
+    <Variables />
+  </Metadata>
+  <Offset>00:00:00</Offset>
+  <AttemptCount>0</AttemptCount>
+  <AttemptHistory />
+  <Segments>
+    <Segment>
+      <Name>Tutorial</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best"><RealTime>00:00:30.0000000</RealTime></SplitTime>
+      </SplitTimes>
+      <BestSegmentTime><RealTime>00:00:28.5000000</RealTime></BestSegmentTime>
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Forest</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best"><RealTime>00:01:45.0000000</RealTime></SplitTime>
+      </SplitTimes>
+      <BestSegmentTime><RealTime>00:01:10.0000000</RealTime></BestSegmentTime>
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Castle</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best"><RealTime>00:03:20.0000000</RealTime></SplitTime>
+      </SplitTimes>
+      <BestSegmentTime><RealTime>00:01:30.0000000</RealTime></BestSegmentTime>
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Final Boss</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best"><RealTime>00:05:00.0000000</RealTime></SplitTime>
+      </SplitTimes>
+      <BestSegmentTime><RealTime>00:01:35.0000000</RealTime></BestSegmentTime>
+      <SegmentHistory />
+    </Segment>
+  </Segments>
+  <AutoSplitterSettings />
+</Run>

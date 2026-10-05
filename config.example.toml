@@ -1,0 +1,27 @@
+# ~/.config/livesplit-overlay/config.toml
+
+splits = "~/splits/game.lss"
+layout = ""
+width  = 300
+height = 500
+corner = "top-right"
+margin = 12
+outputs = []
+over_panels = false
+fps = 30
+autosave = true
+language = ""
+
+# Key names: https://developer.mozilla.org/docs/Web/API/UI_Events/Keyboard_event_code_values
+# Modifiers: "Ctrl + KeyS", "Shift + Alt + F1". Empty string = unbound.
+[hotkeys]
+enabled = true
+split = "Numpad1"
+reset = "Numpad3"
+undo = "Numpad8"
+skip = "Numpad2"
+pause = "Numpad5"
+undo_all_pauses = ""
+previous_comparison = "Numpad4"
+next_comparison = "Numpad6"
+toggle_timing_method = ""
