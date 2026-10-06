@@ -11,6 +11,7 @@ package lsc
 import "C"
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"image"
@@ -165,12 +166,11 @@ func NewRenderer(layoutPath string, lang Lang) (*Renderer, error) {
 	if layoutPath == "" {
 		layout = C.Layout_default_layout(C.uint8_t(lang))
 	} else {
-		f, err := os.Open(layoutPath)
+		data, err := os.ReadFile(layoutPath)
 		if err != nil {
 			return nil, err
 		}
-		layout = C.Layout_parse_file_handle(C.int64_t(f.Fd()))
-		f.Close()
+		layout = parseLayout(bytes.TrimPrefix(data, []byte("\xef\xbb\xbf")))
 		if layout == nil {
 			return nil, fmt.Errorf("%s: not a LiveSplit layout (.ls1l or .lsl)", layoutPath)
 		}
@@ -182,6 +182,18 @@ func NewRenderer(layoutPath string, lang Lang) (*Renderer, error) {
 		cache:    C.ImageCache_new(),
 		renderer: C.SoftwareRenderer_new(),
 	}, nil
+}
+
+func parseLayout(data []byte) C.Layout {
+	if len(data) == 0 {
+		return nil
+	}
+	cjson := C.CString(string(data))
+	defer C.free(unsafe.Pointer(cjson))
+	if layout := C.Layout_parse_json(cjson); layout != nil {
+		return layout
+	}
+	return C.Layout_parse_original_livesplit(unsafe.Pointer(&data[0]), C.size_t(len(data)))
 }
 
 func (r *Renderer) Close() {
