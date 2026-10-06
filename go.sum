@@ -1,2 +1,4 @@
 github.com/BurntSushi/toml v1.6.0 h1:dRaEfpa2VI55EwlIW72hMRHdWouJeRF7TPYhI+AUQjk=
 github.com/BurntSushi/toml v1.6.0/go.mod h1:ukJfTF/6rtPPRCnwkur4qwRxa8vTRFBF0uk2lLoLwho=
+github.com/rorita0x/go-overlay v0.0.0-20261006082556-c008a8bf444c h1:0KGjU7EI/iMo203V4aoUXcVbaoo/OLegUQqLwmc5rGU=
+github.com/rorita0x/go-overlay v0.0.0-20261006082556-c008a8bf444c/go.mod h1:r/7FnnnanrTCSttfQETk86LYdMtmlQghOr6E86BsWBU=

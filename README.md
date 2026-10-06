@@ -17,8 +17,8 @@ You need:
 
 - Go and Rust (`cargo`)
 - the development files for `wayland-client` and `pangocairo`
-- [go-overlay](https://github.com/rorita0x/go-overlay) checked out **next to**
-  this folder, i.e. as `../go-overlay`
+
+Go downloads go-overlay by itself during the build.
 
 ```sh
 git submodule update --init   # downloads livesplit-core
